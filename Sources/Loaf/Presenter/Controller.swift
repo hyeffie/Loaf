@@ -12,6 +12,8 @@ final class Controller: UIPresentationController {
     private let loaf: Loaf
     private let size: CGSize
     
+    let fixingConstant: CGFloat = 60
+    
     init(
         presentedViewController: UIViewController,
         presenting presentingViewController: UIViewController?,
@@ -35,7 +37,16 @@ final class Controller: UIPresentationController {
 
         var containerInsets: UIEdgeInsets
         if #available(iOS 11, *) {
-            containerInsets = containerView.safeAreaInsets
+//            containerInsets = containerView.safeAreaInsets
+            
+            let t = containerView.safeAreaInsets.top + fixingConstant
+            let l = containerView.safeAreaInsets.left
+            let r = containerView.safeAreaInsets.right
+            let b = containerView.safeAreaInsets.bottom + fixingConstant
+            
+            let inset = UIEdgeInsets(top: t, left: l, bottom: b, right: r)
+            
+            containerInsets = inset
         } else {
             let statusBarSize = UIApplication.shared.statusBarFrame.size
             containerInsets = UIEdgeInsets(top: min(statusBarSize.width, statusBarSize.height), left: 0, bottom: 0, right: 0)
